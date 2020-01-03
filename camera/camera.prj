@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="camera" location="/home/darko/Desktop/Faks/9_SEMESTAR/MAS/jpeg-encoder/camera" platform="/home/darko/Desktop/Faks/9_SEMESTAR/MAS/jpeg-encoder/camera_wrapper/export/camera_wrapper/camera_wrapper.xpfm" platformUID="xilinx:pynq-z1::0.0(custom)" systemProject="camera_system" sysConfig="camera_wrapper" runtime="C/C++" cpu="standalone_domain" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="2202832442572d78b1d4ef4bcfe5d367">
-  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.1641024655">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.1641024655" dirty="true">
     <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
     <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
   </configuration>
