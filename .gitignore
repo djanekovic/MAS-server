@@ -1,0 +1,21 @@
+# exclude some obscure hidden SDK folders
+IDE.log
+.analytics
+.metadata/
+webtalk/
+RemoteSystemsTempFiles/
+.sdk/
+_ide/
+
+camera_wrapper/
+camera_system/
+
+# Application : ignored file patterns, exclude Debug & Release folders
+*.o
+*.d
+*.a
+*.checksum
+*.project
+*.cproject
+Debug/
+Release/
