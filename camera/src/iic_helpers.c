@@ -1,7 +1,8 @@
 #include <xiic_l.h>
+#include <unistd.h>
 #include "iic_helpers.h"
 
-int write_ov7670(u8 reg, u8 value)
+int WriteOV7670(u8 reg, u8 value)
 {
 	u8 msg_buffer[2] = {reg, value};
 
@@ -19,20 +20,9 @@ int read_ov7670(u8 reg)
 	return msg_buffer[0];
 }
 
-
-void configure_vga(void)
+int write_configuration(struct regval_list *rl)
 {
-	// docs table 2.2
-
-	write_ov7670(0x11, 0x01);
-	write_ov7670(0x12, 0x00);
-	write_ov7670(0x0c, 0x00);
-	write_ov7670(0x3e, 0x00);
-	write_ov7670(0x70, 0x3a);
-	write_ov7670(0x71, 0x35);
-	write_ov7670(0x72, 0x11);
-	write_ov7670(0x73, 0xf0);
-	write_ov7670(0xa2, 0x02);
-
-	return;
+	for (int i = 0; rl[i].reg_num == 0xff && rl[i].value == 0xff; i++) {
+		WriteOV7670(rl[i].reg_num, rl[i].value);
+	}
 }

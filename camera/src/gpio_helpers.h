@@ -20,6 +20,7 @@
 #define VSYNC_MASK HREF_MASK << 1
 
 //TOOD: test inline
+/*
 bool is_VSYNC_up(u32 gpio) { return gpio & VSYNC_MASK; }
 bool is_VSYNC_down(u32 gpio) { return !is_VSYNC_up(gpio); }
 
@@ -28,5 +29,18 @@ bool is_HREF_down(u32 gpio) { return !is_HREF_up(gpio); }
 
 bool is_PCLK_up(u32 gpio) { return gpio & PCLK_MASK; }
 bool is_PCLK_down(u32 gpio) { return !is_PCLK_up(gpio); }
+*/
+#define is_VSYNC_up(gpio) ( gpio & VSYNC_MASK )
+#define is_VSYNC_down(gpio) ( !is_VSYNC_up(gpio))
+
+#define is_HREF_up(gpio) ( gpio & HREF_MASK)
+#define is_HREF_down(gpio) ( !is_HREF_up(gpio))
+
+#define is_PCLK_up(gpio) ( gpio & PCLK_MASK)
+#define is_PCLK_down(gpio) ( !is_PCLK_up(gpio))
+
+
+//TODO: test if this is UB
+u8 get_data(u32 gpio) { return gpio & 0xFF; }
 
 #endif /* GPIO_HELPERS_H */
