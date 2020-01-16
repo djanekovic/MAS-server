@@ -38,9 +38,6 @@ bool is_PCLK_down(u32 gpio) { return !is_PCLK_up(gpio); }
 
 #define is_PCLK_up(gpio) ( gpio & PCLK_MASK)
 #define is_PCLK_down(gpio) ( !is_PCLK_up(gpio))
-
-
-//TODO: test if this is UB
-u8 get_data(u32 gpio) { return gpio & 0xFF; }
+#define get_data(gpio) (gpio & 0xff)
 
 #endif /* GPIO_HELPERS_H */
