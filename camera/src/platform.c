@@ -30,9 +30,12 @@
 *
 ******************************************************************************/
 
+
 #include "xparameters.h"
 #include "xil_cache.h"
+#include "gpio_helpers.h"
 
+#include "platform.h"
 #include "platform_config.h"
 
 /*
@@ -86,6 +89,35 @@ init_uart()
     XUartNs550_SetLineControlReg(STDOUT_BASEADDR, XUN_LCR_8_DATA_BITS);
 #endif
     /* Bootrom/BSP configures PS7/PSU UART to 115200 bps */
+}
+
+int init_gpio(XGpio *pmod)
+{
+    int status = XGpio_Initialize(pmod, 0);
+    if (status != XST_SUCCESS) {
+    	xil_printf("Error\n");
+    	return status;
+    }
+
+    XGpio_SetDataDirection(pmod, 1, GPIO_DIRECTION);
+
+    return 0;
+}
+
+int init_fs(FATFS *fatfs, BYTE *work, int work_size)
+{
+	const char *name = "0:/";
+	int status = f_mount(fatfs, name, 0);
+	if (status != FR_OK) {
+		return XST_FAILURE;
+	}
+
+	status = f_mkfs(name, FM_FAT32, 0, work, work_size);
+	if (status != FR_OK) {
+		return XST_FAILURE;
+	}
+
+	return 0;
 }
 
 void

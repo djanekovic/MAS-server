@@ -33,9 +33,15 @@
 #ifndef __PLATFORM_H_
 #define __PLATFORM_H_
 
+#include <xgpio.h>
+#include <ff.h>
+
 #include "platform_config.h"
 
 void init_platform();
 void cleanup_platform();
+int init_gpio(XGpio *pmod);
+int init_fs(FATFS *fatfs, BYTE *work, int work_size);
+
 
 #endif
