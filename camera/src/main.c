@@ -37,6 +37,7 @@ int main(void)
 	}
 
 	status = init_ov7670();
+	WriteOV7670(REG_MVFP, 0x30);
 	//WriteOV7670(0x9f, 0xF0);
 	//WriteOV7670(0xa0, 0xC0);
 
