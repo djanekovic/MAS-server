@@ -4,9 +4,10 @@
 #include <xgpio.h>
 
 #define IMAGE_HEIGHT 480
-#define IMAGE_WIDTH 1280
+#define IMAGE_WIDTH 640
 
-int get_yuv_image(char image[IMAGE_HEIGHT][IMAGE_WIDTH], XGpio *pmod);
+int get_yuv_image(signed char image[IMAGE_HEIGHT * IMAGE_WIDTH * 2], XGpio *pmod);
+int get_rgb_image(unsigned char image[IMAGE_HEIGHT * IMAGE_WIDTH * 3], XGpio *pmod);
 int init_ov7670(void);
 
 #endif

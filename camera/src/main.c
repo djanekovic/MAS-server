@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ff.h>
 #include <xil_printf.h>
 #include <xgpio.h>
@@ -7,6 +8,7 @@
 
 #include "platform.h"
 #include "ov7670.h"
+#include "output.h"
 #include "gpio_helpers.h"
 #include "iic_helpers.h"
 
@@ -16,13 +18,15 @@ int main(void)
 	FATFS fatfs;
 	BYTE work[FF_MAX_SS];
 	XGpio pmod;
-    char image[IMAGE_HEIGHT][IMAGE_WIDTH];
+    signed char image[IMAGE_HEIGHT * IMAGE_WIDTH * 3];
+
+    memset(image, 0, IMAGE_HEIGHT * IMAGE_WIDTH * 3);
 
     init_platform();
     int status = init_gpio(&pmod);
     status = init_fs(&fatfs, work, FF_MAX_SS);
 
-    status = f_open(&f, "slika.pgm", FA_CREATE_ALWAYS | FA_WRITE);
+    status = f_open(&f, "slika.bin", FA_CREATE_ALWAYS | FA_WRITE);
     if (status) {
     	return XST_FAILURE;
     }
@@ -33,6 +37,9 @@ int main(void)
 	}
 
 	status = init_ov7670();
+	//WriteOV7670(0x9f, 0xF0);
+	//WriteOV7670(0xa0, 0xC0);
+
 	if (status) {
 		xil_printf("ov7670 init routine failed, exiting...\n");
 		return XST_FAILURE;
@@ -40,7 +47,7 @@ int main(void)
 
     xil_printf("Pocinjem citati sliku\n");
 
-    status = get_image(image, &pmod);
+    status = get_yuv_image(image, &pmod);
     if (status) {
     	xil_printf("Reading image failed\n");
     	return status;
@@ -48,7 +55,7 @@ int main(void)
 
     xil_printf("Zapisivanje filea\n");
 
-    status = write_yuv422(&f, image);
+    status = write_422_image(&f, image, IMAGE_WIDTH, IMAGE_HEIGHT);
     if (status) {
     	xil_printf("Writing to SD card failed\n");
     	return status;
