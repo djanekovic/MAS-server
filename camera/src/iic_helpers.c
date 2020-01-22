@@ -20,9 +20,11 @@ int read_ov7670(u8 reg)
 	return msg_buffer[0];
 }
 
-int write_configuration(struct regval_list *rl)
+int write_configuration(const struct regval_list *rl)
 {
 	for (int i = 0; rl[i].reg_num == 0xff && rl[i].value == 0xff; i++) {
 		WriteOV7670(rl[i].reg_num, rl[i].value);
 	}
+
+	return 0;
 }

@@ -8,9 +8,10 @@
 int init_ov7670(void)
 {
 	WriteOV7670(0x12, 0x80);
-	usleep(5000);
+	sleep(1);
 	write_configuration(ov7670_default_regs);
-	write_configuration(ov7670_fmt_yuv422);
+	write_configuration(yuv422_ov7670);
+	write_configuration(vga_ov7670);
 	WriteOV7670(0x11, 0x1F);
 
 	//xil_printf("U 0x70: 0x%x\n", read_ov7670(0x70));
