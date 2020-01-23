@@ -11,6 +11,9 @@
 #include "output.h"
 #include "gpio_helpers.h"
 #include "iic_helpers.h"
+#include "jpeg.h"
+
+#define JPEG 1
 
 int main(void)
 {
@@ -18,6 +21,13 @@ int main(void)
 	FATFS fatfs;
 	BYTE work[FF_MAX_SS];
 	XGpio pmod;
+
+#if JPEG
+	const char *filename = "slika.jpg";
+#else
+	const char *filename = "slika.bin";
+#endif
+
     signed char image[IMAGE_HEIGHT * IMAGE_WIDTH * 3];
 
     memset(image, 0, IMAGE_HEIGHT * IMAGE_WIDTH * 3);
@@ -25,8 +35,12 @@ int main(void)
     init_platform();
     int status = init_gpio(&pmod);
     status = init_fs(&fatfs, work, FF_MAX_SS);
+    if (status) {
+    	xil_printf("Init_fs failed.");
+    	return XST_FAILURE;
+    }
 
-    status = f_open(&f, "slika.bin", FA_CREATE_ALWAYS | FA_WRITE);
+    status = f_open(&f, filename, FA_CREATE_ALWAYS | FA_WRITE);
     if (status) {
     	return XST_FAILURE;
     }
@@ -55,6 +69,15 @@ int main(void)
     	return status;
     }
 
+#if JPEG
+    xil_printf("Pocinjem raditi JPEG kompresiju.\n");
+    status = generate_jpeg(&f, image, IMAGE_WIDTH, IMAGE_HEIGHT);
+    if (status) {
+    	xil_printf("JPEG routine failed");
+    	return status;
+    }
+
+#else
     xil_printf("Zapisivanje filea\n");
 
     status = write_422_image(&f, image, IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -62,7 +85,7 @@ int main(void)
     	xil_printf("Writing to SD card failed\n");
     	return status;
     }
-
+#endif
     f_close(&f);
 
     xil_printf("Gotov\n");
