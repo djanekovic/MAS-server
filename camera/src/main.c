@@ -13,7 +13,7 @@
 #include "iic_helpers.h"
 #include "jpeg.h"
 
-#define JPEG 1
+#define JPEG 0
 
 int main(void)
 {
@@ -78,7 +78,7 @@ int main(void)
     }
 
 #else
-    xil_printf("Zapisivanje filea\n");
+    xil_printf("Zapisivanje raw filea\n");
 
     status = write_422_image(&f, image, IMAGE_WIDTH, IMAGE_HEIGHT);
     if (status) {
